@@ -5,58 +5,54 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nx/webpack:webpack",
+      "executor": "@nrwl/webpack:webpack",
       "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "production",
       "options": {
         "target": "node",
         "compiler": "tsc",
         "outputPath": "dist/apps/auth-microservice",
         "main": "apps/auth-microservice/src/main.ts",
         "tsConfig": "apps/auth-microservice/tsconfig.app.json",
-        "assets": ["apps/auth-microservice/src/assets"],
-        "isolatedConfig": true,
-        "webpackConfig": "apps/auth-microservice/webpack.config.js"
+        "assets": ["apps/auth-microservice/src/assets"]
       },
       "configurations": {
-        "development": {},
-        "production": {}
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/auth-microservice/src/environments/environment.ts",
+              "with": "apps/auth-microservice/src/environments/environment.prod.ts"
+            }
+          ]
+        }
       }
     },
     "serve": {
-      "executor": "@nx/js:node",
-      "defaultConfiguration": "development",
+      "executor": "@nrwl/js:node",
       "options": {
         "buildTarget": "auth-microservice:build"
       },
       "configurations": {
-        "development": {
-          "buildTarget": "auth-microservice:build:development"
-        },
         "production": {
           "buildTarget": "auth-microservice:build:production"
         }
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/auth-microservice/**/*.ts"]
       }
     },
     "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/auth-microservice"],
       "options": {
         "jestConfig": "apps/auth-microservice/jest.config.ts",
         "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
       }
     }
   },

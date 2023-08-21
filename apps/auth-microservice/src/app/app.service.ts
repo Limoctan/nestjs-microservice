@@ -5,7 +5,7 @@ import { UsersRepository } from './users.repository';
 
 @Injectable()
 export class AppService {
-  constructor(private readonly usersRepository: UsersRepository) { }
+  constructor(private readonly usersRepository: UsersRepository) {}
 
   createUser(data: CreateUserDto): void {
     this.usersRepository.save(data);

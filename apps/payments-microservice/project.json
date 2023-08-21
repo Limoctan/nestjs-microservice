@@ -5,58 +5,54 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nx/webpack:webpack",
+      "executor": "@nrwl/webpack:webpack",
       "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "production",
       "options": {
         "target": "node",
         "compiler": "tsc",
         "outputPath": "dist/apps/payments-microservice",
         "main": "apps/payments-microservice/src/main.ts",
         "tsConfig": "apps/payments-microservice/tsconfig.app.json",
-        "assets": ["apps/payments-microservice/src/assets"],
-        "isolatedConfig": true,
-        "webpackConfig": "apps/payments-microservice/webpack.config.js"
+        "assets": ["apps/payments-microservice/src/assets"]
       },
       "configurations": {
-        "development": {},
-        "production": {}
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/payments-microservice/src/environments/environment.ts",
+              "with": "apps/payments-microservice/src/environments/environment.prod.ts"
+            }
+          ]
+        }
       }
     },
     "serve": {
-      "executor": "@nx/js:node",
-      "defaultConfiguration": "development",
+      "executor": "@nrwl/js:node",
       "options": {
         "buildTarget": "payments-microservice:build"
       },
       "configurations": {
-        "development": {
-          "buildTarget": "payments-microservice:build:development"
-        },
         "production": {
           "buildTarget": "payments-microservice:build:production"
         }
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/payments-microservice/**/*.ts"]
       }
     },
     "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/payments-microservice"],
       "options": {
         "jestConfig": "apps/payments-microservice/jest.config.ts",
         "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
       }
     }
   },

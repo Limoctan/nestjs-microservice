@@ -1,11 +1,12 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "npmScope": "nestjs-microservices",
   "affected": {
     "defaultBase": "master"
   },
   "tasksRunnerOptions": {
     "default": {
-      "runner": "nx-cloud",
+      "runner": "@nrwl/nx-cloud",
       "options": {
         "cacheableOperations": [
           "build",
@@ -13,7 +14,7 @@
           "test",
           "e2e"
         ],
-        "accessToken": "ODM3OWY3NWUtYjJjMS00MDA1LWJhNWYtZDY1NmU0Zjc2YWY2fHJlYWQtd3JpdGU="
+        "accessToken": "ZDQ3OWQ5MzQtODViZC00NzQ3LTg4YjktMjU1YTNiOGFmZGQzfHJlYWQtd3JpdGU="
       }
     }
   },
@@ -37,8 +38,7 @@
     "lint": {
       "inputs": [
         "default",
-        "{workspaceRoot}/.eslintrc.json",
-        "{workspaceRoot}/.eslintignore"
+        "{workspaceRoot}/.eslintrc.json"
       ]
     }
   },
@@ -52,10 +52,9 @@
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
       "!{projectRoot}/tsconfig.spec.json",
       "!{projectRoot}/jest.config.[jt]s",
-      "!{projectRoot}/src/test-setup.[jt]s",
-      "!{projectRoot}/test-setup.[jt]s",
       "!{projectRoot}/.eslintrc.json"
     ],
     "sharedGlobals": []
-  }
+  },
+  "defaultProject": "api-gateway"
 }

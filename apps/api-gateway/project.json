@@ -5,68 +5,54 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nx/webpack:webpack",
-      "outputs": [
-        "{options.outputPath}"
-      ],
-      "defaultConfiguration": "production",
+      "executor": "@nrwl/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
       "options": {
         "target": "node",
         "compiler": "tsc",
         "outputPath": "dist/apps/api-gateway",
         "main": "apps/api-gateway/src/main.ts",
         "tsConfig": "apps/api-gateway/tsconfig.app.json",
-        "assets": [
-          "apps/api-gateway/src/assets"
-        ],
-        "isolatedConfig": true,
-        "webpackConfig": "apps/api-gateway/webpack.config.js"
+        "assets": ["apps/api-gateway/src/assets"]
       },
       "configurations": {
-        "development": {},
-        "production": {}
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/api-gateway/src/environments/environment.ts",
+              "with": "apps/api-gateway/src/environments/environment.prod.ts"
+            }
+          ]
+        }
       }
     },
     "serve": {
-      "executor": "@nx/js:node",
-      "defaultConfiguration": "development",
+      "executor": "@nrwl/js:node",
       "options": {
         "buildTarget": "api-gateway:build"
       },
       "configurations": {
-        "development": {
-          "buildTarget": "api-gateway:build:development"
-        },
         "production": {
           "buildTarget": "api-gateway:build:production"
         }
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "apps/api-gateway/**/*.ts"
-        ]
+        "lintFilePatterns": ["apps/api-gateway/**/*.ts"]
       }
     },
     "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/api-gateway"],
       "options": {
         "jestConfig": "apps/api-gateway/jest.config.ts",
         "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
       }
     }
   },
