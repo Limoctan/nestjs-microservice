@@ -6,7 +6,7 @@ import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService) { }
 
   @EventPattern('create_user')
   handleUserCreate(@Payload(ValidationPipe) data: CreateUserDto) {
@@ -15,6 +15,6 @@ export class AppController {
 
   @MessagePattern('get_user')
   handleGetUser(@Payload('userId', ParseIntPipe) userId: number) {
-    return this.appService.getUser(userId);
+    return this.appService.findOne(userId);
   }
 }

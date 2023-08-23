@@ -4,10 +4,11 @@ import { PaymentModule } from '../payment/payments.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { VehicleModule } from '../vehicle/vehicle.module';
 
 @Module({
-  imports: [AuthModule, PaymentModule],
+  imports: [AuthModule, PaymentModule, VehicleModule],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

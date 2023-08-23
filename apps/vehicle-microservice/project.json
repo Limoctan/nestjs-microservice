@@ -1,0 +1,64 @@
+{
+  "name": "vehicle-microservice",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/vehicle-microservice/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/vehicle-microservice",
+        "main": "apps/vehicle-microservice/src/main.ts",
+        "tsConfig": "apps/vehicle-microservice/tsconfig.app.json",
+        "assets": ["apps/vehicle-microservice/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/vehicle-microservice/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "vehicle-microservice:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "vehicle-microservice:build:development"
+        },
+        "production": {
+          "buildTarget": "vehicle-microservice:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/vehicle-microservice/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/vehicle-microservice/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

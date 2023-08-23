@@ -1,17 +1,19 @@
 import { CreateUserDto } from '@nestjs-microservices/shared/dto';
 import { User } from '@nestjs-microservices/shared/entities';
 import { Injectable } from '@nestjs/common';
-import { UsersRepository } from './users.repository';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AppService {
-  constructor(private readonly usersRepository: UsersRepository) {}
+
+  constructor(@InjectRepository(User) private usersRepository: Repository<User>) { }
 
   createUser(data: CreateUserDto): void {
     this.usersRepository.save(data);
   }
 
-  getUser(id: number): User {
-    return this.usersRepository.findOne(id);
+  findOne(id: number): Promise<User | null> {
+    return this.usersRepository.findOneBy({ id });
   }
 }
